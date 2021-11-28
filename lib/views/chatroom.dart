@@ -1,4 +1,5 @@
 import 'package:app_chat/services/constants.dart';
+import 'package:app_chat/services/database.dart';
 import 'package:app_chat/views/profile.dart';
 import 'package:app_chat/views/search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,25 +15,22 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   late Stream chatRooms;
 
-
   // Widget chatRoomsList() {
+  //
   //   return StreamBuilder(
   //     stream: chatRooms,
   //     builder: (context, snapshot) {
-  //       var docs;
   //       return snapshot.hasData
   //           ? ListView.builder(
   //           itemCount: snapshot.data!.docs.length,
   //           shrinkWrap: true,
   //           itemBuilder: (context, index) {
   //             return ChatRoomsTile(
-  //               name:'',
-  //               chatRoomId: '',
-  //               // name: snapshot.data.documents[index].data['chatRoomId']
-  //               //     .toString()
-  //               //     .replaceAll("_", "")
-  //               //     .replaceAll(Constants.myName, ""),
-  //               // chatRoomId: snapshot.data.documents[index].data["chatRoomId"],
+  //               name: snapshot.data.documents[index].data['chatRoomId']
+  //                   .toString()
+  //                   .replaceAll("_", "")
+  //                   .replaceAll(Constants.myName, ""),
+  //               chatRoomId: snapshot.data.documents[index].data["chatRoomId"],
   //             );
   //           })
   //           : Container();
@@ -40,27 +38,24 @@ class _ChatRoomState extends State<ChatRoom> {
   //   );
   // }
 
-  // @override
-  // void initState() {
-  //   getUserInfogetChats();
-  //   super.initState();
-  // }
 
-  // getUserInfogetChats() async {
-  //   Constants.myName = await HelperFunctions.getUserNameSharedPreference();
-  //   DatabaseMethods().getUserChats(Constants.myName).then((snapshots) {
-  //     setState(() {
-  //       chatRooms = snapshots;
-  //       print(
-  //           "we got the data + ${chatRooms.toString()} this is name  ${Constants.myName}");
-  //     });
-  //   });
-  // }
+
   late User _currentUser;
   @override
   void initState() {
     _currentUser = widget.user;
+    getUserInfogetChats();
     super.initState();
+  }
+  getUserInfogetChats() async {
+    Constants.myName = _currentUser.displayName!;
+    DatabaseMethods().getUserChats(Constants.myName).then((snapshots) {
+      setState(() {
+        chatRooms = snapshots;
+        print(
+            "we got the data + ${chatRooms.toString()} this is name  ${Constants.myName}");
+      });
+    });
   }
   @override
   Widget build(BuildContext context) {
