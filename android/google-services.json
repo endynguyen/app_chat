@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "774894958068",
+    "project_id": "app-chat-6b9ef",
+    "storage_bucket": "app-chat-6b9ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774894958068:android:7a74832d3c5cc9782ab5a1",
+        "android_client_info": {
+          "package_name": "com.endy.app_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "774894958068-af5ioe9b8m1g22m1fa72jucgbr71ujra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.endy.app_chat",
+            "certificate_hash": "c92ff109b7522e77d50991d36b88c2ac699ec375"
+          }
+        },
+        {
+          "client_id": "774894958068-nls8nukikgf77n28imjm5lnslgltp2a2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaj3TxdxuTVQ3LSRuU119JvZ3G_OS18SY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774894958068-nls8nukikgf77n28imjm5lnslgltp2a2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
