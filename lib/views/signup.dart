@@ -3,7 +3,6 @@ import 'package:app_chat/services/database.dart';
 import 'package:app_chat/validate/validate.dart';
 import 'package:app_chat/views/chatroom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 class RegisterPage extends StatefulWidget {
   @override
@@ -37,13 +36,21 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Register'),
+          backgroundColor: Colors.black,
         ),
         body: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(30.0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: Text(
+                    'Register',
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                ),
                 Form(
                   key: _registerFormKey,
                   child: Column(
@@ -99,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 32.0),
+                      SizedBox(height: 20.0),
                       _isProcessing
                           ? CircularProgressIndicator()
                           : Row(
@@ -144,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 }
                               },
                               child: Text(
-                                'Sign up',
+                                'Sign Up',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),

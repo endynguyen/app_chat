@@ -35,7 +35,7 @@ class DatabaseMethods {
   }
 
   getChats(String chatRoomId) async{
-    return FirebaseFirestore.instance
+    return await FirebaseFirestore.instance
         .collection("chatRoom")
         .doc(chatRoomId)
         .collection("chats")

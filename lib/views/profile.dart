@@ -31,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text(' ${_currentUser.displayName} Profile'),
         elevation: 0.0,
+        backgroundColor: Colors.black,
         centerTitle: false,
         actions: [
           GestureDetector(
@@ -44,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
               );
             },
             child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Icon(Icons.home)),
           )
         ],
@@ -57,61 +58,13 @@ class _ProfilePageState extends State<ProfilePage> {
               'NAME: ${_currentUser.displayName}',
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 30.0),
             Text(
               'EMAIL: ${_currentUser.email}',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyText2,
             ),
-            SizedBox(height: 16.0),
-            _currentUser.emailVerified
-                ? Text(
-              'Email verified',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .copyWith(color: Colors.green),
-            )
-                : Text(
-              'Email not verified',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .copyWith(color: Colors.red),
-            ),
-            SizedBox(height: 16.0),
-            _isSendingVerification
-                ? CircularProgressIndicator()
-                : Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    setState(() {
-                      _isSendingVerification = true;
-                    });
-                    await _currentUser.sendEmailVerification();
-                    setState(() {
-                      _isSendingVerification = false;
-                    });
-                  },
-                  child: Text('Verify email'),
-                ),
-                SizedBox(width: 8.0),
-                IconButton(
-                  icon: Icon(Icons.refresh),
-                  onPressed: () async {
-                    User? user = await FireAuth.refreshUser(_currentUser);
 
-                    if (user != null) {
-                      setState(() {
-                        _currentUser = user;
-                      });
-                    }
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 30.0),
             _isSigningOut
                 ? CircularProgressIndicator()
                 : ElevatedButton(

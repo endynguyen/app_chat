@@ -13,67 +13,36 @@ class _SearchState extends State<Search> {
 
   DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController searchEditingController = new TextEditingController();
-  late QuerySnapshot searchResultSnapshot;
+
 
   bool isLoading = false;
   bool haveUserSearched = false;
 
-  initiateSearch() async {
-    if(searchEditingController.text.isNotEmpty){
-      setState(() {
-        isLoading = true;
-      });
-      Query<Map<String, dynamic>> data = databaseMethods.searchByName(searchEditingController.text);
 
-        print("$searchResultSnapshot");
-        setState(() {
-          isLoading = false;
-          haveUserSearched = true;
-        });
-      });
-    }
-  }
-
-
+  CollectionReference _user = FirebaseFirestore.instance.collection('users');
+  //
   Widget userList(){
-    if (haveUserSearched) {
-      return ListView(
-        shrinkWrap: true,
-        itemCount: searchResultSnapshot.docs.length,
-        itemBuilder: (context, index){
-          return userTile(
-            searchResultSnapshot.docs[index]['name'],
-            searchResultSnapshot.docs[index]['email'],
+    return StreamBuilder(
+        stream: _user.snapshots(),
+      builder: (context,AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+          if(streamSnapshot.hasData){
+            return ListView.builder(
+              itemCount: streamSnapshot.data!.docs.length,
+                itemBuilder: (context, index){
+                final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+                return userTile(
+                  documentSnapshot['name'],
+                  documentSnapshot['email'],
+                            );
+                }
+            );
+          } else return Container(
+            child: CircularProgressIndicator(),
           );
-        });
-    } else {
-      return Container();
-    }
+
+      }
+    );
   }
-  // Query<Map<String, dynamic>> _user = FirebaseFirestore.instance.collection('users').where('name', isEqualTo: searchEditingController.text );
-  //
-  // Widget userList(){
-  //   return StreamBuilder(
-  //       stream: _user.snapshots(),
-  //     builder: (context,AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-  //         if(streamSnapshot.hasData){
-  //           return ListView.builder(
-  //             itemCount: streamSnapshot.data!.docs.length,
-  //               itemBuilder: (context, index){
-  //               final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
-  //               return userTile(
-  //                 documentSnapshot['name'],
-  //                 documentSnapshot['email'],
-  //                           );
-  //               }
-  //           );
-  //         } else return Container(
-  //           child: CircularProgressIndicator(),
-  //         );
-  //
-  //     }
-  //   );
-  // }
 
   /// 1.create a chatroom, send user to the chatroom, other userdetails
   sendMessage(String userName){
@@ -107,14 +76,14 @@ class _SearchState extends State<Search> {
                 userName,
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16
+                    fontSize: 22
                 ),
               ),
               Text(
                 userEmail,
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16
+                    fontSize: 13
                 ),
               )
             ],
@@ -127,16 +96,14 @@ class _SearchState extends State<Search> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
               decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(24)
               ),
-              child: Text("Message",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16
-                ),),
+              child: Icon(Icons.send,
+              color: Colors.white,
+              size: 30,)),
             ),
-          )
+
         ],
       ),
     );
@@ -162,63 +129,15 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firebase Authentication'),
+        title: Text('User Chat'),
+        backgroundColor: Colors.black,
       ),
-      body: userList(),
-      // body: isLoading ? Container(
-      //   child: Center(
-      //     child: CircularProgressIndicator(),
-      //   ),
-      // ) :  Container(
-      //   child: Column(
-      //     children: [
-      //       Container(
-      //         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      //         color: Color(0x54FFFFFF),
-      //         child: Row(
-      //           children: [
-      //             Expanded(
-      //               child: TextField(
-      //                 controller: searchEditingController,
-      //
-      //                 decoration: InputDecoration(
-      //                     hintText: "search name ...",
-      //                     hintStyle: TextStyle(
-      //                       color: Colors.black,
-      //                       fontSize: 16,
-      //                     ),
-      //                     border: InputBorder.none
-      //                 ),
-      //               ),
-      //             ),
-      //             GestureDetector(
-      //               onTap: (){
-      //                 // initiateSearch();
-      //               },
-      //               child: Container(
-      //                   height: 40,
-      //                   width: 40,
-      //                   decoration: BoxDecoration(
-      //                       gradient: LinearGradient(
-      //                           colors: [
-      //                             const Color(0x36FFFFFF),
-      //                             const Color(0x0FFFFFFF)
-      //                           ],
-      //                           begin: FractionalOffset.topLeft,
-      //                           end: FractionalOffset.bottomRight
-      //                       ),
-      //                       borderRadius: BorderRadius.circular(40)
-      //                   ),
-      //                   padding: EdgeInsets.all(12),
-      //                   child: Icon(Icons.search),),
-      //             )
-      //           ],
-      //         ),
-      //       ),
-      //       userList()
-      //     ],
-      //   ),
-      // ),
+      body: Container(
+
+          child: userList(),
+         ),
+
+
     );
   }
 }

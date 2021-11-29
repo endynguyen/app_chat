@@ -14,7 +14,13 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
 
-  late Stream<QuerySnapshot> chats;
+  late Stream<QuerySnapshot> chats ;
+  // =FirebaseFirestore.instance
+  //     .collection("chatRoom")
+  //     .doc(widget.chatRoomId)
+  //     .collection("chats")
+  //     .orderBy('time')
+  //     .snapshots();
   TextEditingController messageEditingController = new TextEditingController();
 
   Widget chatMessages(){
@@ -36,6 +42,7 @@ class _ChatState extends State<Chat> {
       },
     );
   }
+
 
   addMessage() {
     if (messageEditingController.text.isNotEmpty) {
@@ -69,26 +76,26 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat'),
+        title: Text(' Chat Room'),
+        backgroundColor: Colors.black,
       ),
       body: Container(
         child: Stack(
           children: [
-            // chatMessages(),
+            chatMessages(),
             Container(alignment: Alignment.bottomCenter,
               width: MediaQuery
                   .of(context)
                   .size
                   .width,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                color: Color(0x54FFFFFF),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                color: Colors.grey,
                 child: Row(
                   children: [
                     Expanded(
                         child: TextField(
                           controller: messageEditingController,
-
                           decoration: InputDecoration(
                               hintText: "Message ...",
                               hintStyle: TextStyle(
@@ -107,19 +114,12 @@ class _ChatState extends State<Chat> {
                           height: 40,
                           width: 40,
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    const Color(0x36FFFFFF),
-                                    const Color(0x0FFFFFFF)
-                                  ],
-                                  begin: FractionalOffset.topLeft,
-                                  end: FractionalOffset.bottomRight
-                              ),
                               borderRadius: BorderRadius.circular(40)
                           ),
                           padding: EdgeInsets.all(12),
-                          child: Icon(Icons.send)),
-
+                          child: Icon(Icons.send,
+                            color: Colors.black,
+                            size: 30,)),
                     ),
                   ],
                 ),
@@ -168,18 +168,18 @@ class MessageTile extends StatelessWidget {
             gradient: LinearGradient(
               colors: sendByMe ? [
                 const Color(0xff007EF4),
-                const Color(0xff2A75BC)
+                const Color(0xff007EF4)
               ]
                   : [
-                const Color(0x1AFFFFFF),
-                const Color(0x1AFFFFFF)
+                const Color(0xFF110E0E),
+                const Color(0xFF110E0E)
               ],
             )
         ),
         child: Text(message,
             textAlign: TextAlign.start,
             style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 16,
                 fontFamily: 'OverpassRegular',
                 fontWeight: FontWeight.w300)),

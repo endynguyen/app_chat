@@ -63,9 +63,10 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome  ${_currentUser.displayName}'),
+        title: Text('Chat Room'),
         elevation: 0.0,
         centerTitle: false,
+        backgroundColor: Colors.black,
         actions: [
           GestureDetector(
             onTap: () {
@@ -88,6 +89,7 @@ class _ChatRoomState extends State<ChatRoom> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
+        backgroundColor: Colors.black,
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Search()));
@@ -114,34 +116,34 @@ class ChatRoomsTile extends StatelessWidget {
         ));
       },
       child: Container(
-        color: Colors.grey,
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        color: Colors.white60,
+        padding: EdgeInsets.symmetric(horizontal: 26, vertical: 26),
         child: Row(
           children: [
             Container(
-              height: 30,
-              width: 30,
+              height: 40,
+              width: 40,
               decoration: BoxDecoration(
-                  color: Colors.brown,
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(30)),
               child: Text(name.substring(0, 1),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
+                      color: Colors.white,
+                      fontSize: 26,
                       fontFamily: 'OverpassRegular',
                       fontWeight: FontWeight.w300)),
             ),
             SizedBox(
-              width: 12,
+              width: 20,
             ),
             Text(name,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16,
+                    fontSize: 20,
                     fontFamily: 'OverpassRegular',
-                    fontWeight: FontWeight.w300))
+                    fontWeight: FontWeight.w600))
           ],
         ),
       ),
