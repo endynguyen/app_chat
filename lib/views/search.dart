@@ -1,6 +1,7 @@
 import 'package:app_chat/services/constants.dart';
 import 'package:app_chat/services/database.dart';
 import 'package:app_chat/services/message.dart';
+import 'package:app_chat/views/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,17 @@ class _SearchState extends State<Search> {
       });
     }
   }
-
+  Widget userList(){
+    return haveUserSearched ? ListView.builder(
+        shrinkWrap: true,
+        itemCount: searchResultSnapshot.docs.length,
+        itemBuilder: (context, index){
+          return userTile(
+            searchResultSnapshot.docs[index]['name'],
+            searchResultSnapshot.docs[index]['email'],
+          );
+        }) : Container();
+  }
 
   /// 1.create a chatroom, send user to the chatroom, other userdetails
   sendMessage(String userName){
@@ -48,11 +59,11 @@ class _SearchState extends State<Search> {
     };
     databaseMethods.addChatRoom(chatRoom, chatRoomId);
 
-    // Navigator.push(context, MaterialPageRoute(
-    //     builder: (context) => Chat(
-    //       chatRoomId: chatRoomId,
-    //     )
-    // ));
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => Chat(
+          chatRoomId: chatRoomId,
+        )
+    ));
 
   }
 
@@ -67,14 +78,14 @@ class _SearchState extends State<Search> {
               Text(
                 userName,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 16
                 ),
               ),
               Text(
                 userEmail,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 16
                 ),
               )
@@ -93,7 +104,7 @@ class _SearchState extends State<Search> {
               ),
               child: Text("Message",
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 16
                 ),),
             ),
@@ -142,9 +153,9 @@ class _SearchState extends State<Search> {
                       controller: searchEditingController,
 
                       decoration: InputDecoration(
-                          hintText: "search username ...",
+                          hintText: "search name ...",
                           hintStyle: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                             fontSize: 16,
                           ),
                           border: InputBorder.none
@@ -170,12 +181,12 @@ class _SearchState extends State<Search> {
                             borderRadius: BorderRadius.circular(40)
                         ),
                         padding: EdgeInsets.all(12),
-                        child: Image.asset("assets/images/search_white.png",
-                          height: 25, width: 25,)),
+                        child: Icon(Icons.search),),
                   )
                 ],
               ),
             ),
+            userList()
           ],
         ),
       ),

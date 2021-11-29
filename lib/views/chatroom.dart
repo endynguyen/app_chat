@@ -1,7 +1,9 @@
 import 'package:app_chat/services/constants.dart';
 import 'package:app_chat/services/database.dart';
+import 'package:app_chat/views/chat.dart';
 import 'package:app_chat/views/profile.dart';
 import 'package:app_chat/views/search.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,30 +15,31 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  late Stream chatRooms;
+  late Stream<QuerySnapshot> chatRooms;
 
-  // Widget chatRoomsList() {
-  //
-  //   return StreamBuilder(
-  //     stream: chatRooms,
-  //     builder: (context, snapshot) {
-  //       return snapshot.hasData
-  //           ? ListView.builder(
-  //           itemCount: snapshot.data!.docs.length,
-  //           shrinkWrap: true,
-  //           itemBuilder: (context, index) {
-  //             return ChatRoomsTile(
-  //               name: snapshot.data.documents[index].data['chatRoomId']
-  //                   .toString()
-  //                   .replaceAll("_", "")
-  //                   .replaceAll(Constants.myName, ""),
-  //               chatRoomId: snapshot.data.documents[index].data["chatRoomId"],
-  //             );
-  //           })
-  //           : Container();
-  //     },
-  //   );
-  // }
+  Widget chatRoomsList() {
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: chatRooms,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView(
+              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+              return ChatRoomsTile(
+                name: data['chatRoomId']
+                    .toString()
+                    .replaceAll("_", "")
+                    .replaceAll(Constants.myName, ""),
+                chatRoomId: data['chatRoomId'],
+              );
+            }).toList(),);
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
 
 
 
@@ -82,7 +85,7 @@ class _ChatRoomState extends State<ChatRoom> {
         ],
       ),
       body: Container(
-        // child: chatRoomsList(),
+         child: chatRoomsList(),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
@@ -105,14 +108,14 @@ class ChatRoomsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        // Navigator.push(context, MaterialPageRoute(
-        //     builder: (context) => Chat(
-        //       chatRoomId: chatRoomId,
-        //     )
-        // ));
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => Chat(
+              chatRoomId: chatRoomId,
+            )
+        ));
       },
       child: Container(
-        color: Colors.black26,
+        color: Colors.grey,
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Row(
           children: [
@@ -125,7 +128,7 @@ class ChatRoomsTile extends StatelessWidget {
               child: Text(name.substring(0, 1),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'OverpassRegular',
                       fontWeight: FontWeight.w300)),
@@ -136,7 +139,7 @@ class ChatRoomsTile extends StatelessWidget {
             Text(name,
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 16,
                     fontFamily: 'OverpassRegular',
                     fontWeight: FontWeight.w300))

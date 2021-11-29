@@ -17,26 +17,25 @@ class _ChatState extends State<Chat> {
   late Stream<QuerySnapshot> chats;
   TextEditingController messageEditingController = new TextEditingController();
 
-  // Widget chatMessages(){
-  //   return StreamBuilder(
-  //     stream: chats,
-  //     builder: (context, snapshot){
-  //       if (snapshot.hasData) {
-  //
-  //         return ListView.builder(
-  //           itemCount: snapshot.data.documents.length,
-  //           itemBuilder: (context, index){
-  //             return MessageTile(
-  //               message: snapshot.data.documents[index].data["message"],
-  //               sendByMe: Constants.myName == snapshot.data.documents[index].data["sendBy"],
-  //             );
-  //           });
-  //       } else {
-  //         return Container();
-  //       }
-  //     },
-  //   );
-  // }
+  Widget chatMessages(){
+    return StreamBuilder<QuerySnapshot>(
+      stream: chats,
+      builder: (context, snapshot){
+        if (snapshot.hasData) {
+          return ListView(
+              children: snapshot.data!.docs.map((DocumentSnapshot document){
+                Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+              return MessageTile(
+                message: data['message'],
+                sendByMe: Constants.myName == data['sendBy'],
+              );
+            }).toList(),);
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
 
   addMessage() {
     if (messageEditingController.text.isNotEmpty) {
@@ -93,7 +92,7 @@ class _ChatState extends State<Chat> {
                           decoration: InputDecoration(
                               hintText: "Message ...",
                               hintStyle: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 16,
                               ),
                               border: InputBorder.none
@@ -180,7 +179,7 @@ class MessageTile extends StatelessWidget {
         child: Text(message,
             textAlign: TextAlign.start,
             style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 16,
                 fontFamily: 'OverpassRegular',
                 fontWeight: FontWeight.w300)),
