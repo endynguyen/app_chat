@@ -16,7 +16,6 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   late Stream<QuerySnapshot> chatRooms;
-
   Widget chatRoomsList() {
 
     return StreamBuilder<QuerySnapshot>(

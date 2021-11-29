@@ -17,11 +17,11 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  searchByName(String searchField) {
+  Query<Map<String, dynamic>> searchByName(String searchField) {
     return FirebaseFirestore.instance
         .collection("users")
-        .where('userName', isEqualTo: searchField)
-        .snapshots();
+        .where('name', isEqualTo: searchField);
+
   }
   //
   Future<void> addChatRoom(chatRoom, chatRoomId) async {

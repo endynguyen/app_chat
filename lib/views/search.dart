@@ -1,6 +1,5 @@
 import 'package:app_chat/services/constants.dart';
 import 'package:app_chat/services/database.dart';
-import 'package:app_chat/services/message.dart';
 import 'package:app_chat/views/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +23,8 @@ class _SearchState extends State<Search> {
       setState(() {
         isLoading = true;
       });
-      await databaseMethods.searchByName(searchEditingController.text)
-          .then((snapshot){
-        searchResultSnapshot = snapshot;
+      Query<Map<String, dynamic>> data = databaseMethods.searchByName(searchEditingController.text);
+
         print("$searchResultSnapshot");
         setState(() {
           isLoading = false;
@@ -35,8 +33,11 @@ class _SearchState extends State<Search> {
       });
     }
   }
+
+
   Widget userList(){
-    return haveUserSearched ? ListView.builder(
+    if (haveUserSearched) {
+      return ListView(
         shrinkWrap: true,
         itemCount: searchResultSnapshot.docs.length,
         itemBuilder: (context, index){
@@ -44,8 +45,35 @@ class _SearchState extends State<Search> {
             searchResultSnapshot.docs[index]['name'],
             searchResultSnapshot.docs[index]['email'],
           );
-        }) : Container();
+        });
+    } else {
+      return Container();
+    }
   }
+  // Query<Map<String, dynamic>> _user = FirebaseFirestore.instance.collection('users').where('name', isEqualTo: searchEditingController.text );
+  //
+  // Widget userList(){
+  //   return StreamBuilder(
+  //       stream: _user.snapshots(),
+  //     builder: (context,AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+  //         if(streamSnapshot.hasData){
+  //           return ListView.builder(
+  //             itemCount: streamSnapshot.data!.docs.length,
+  //               itemBuilder: (context, index){
+  //               final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+  //               return userTile(
+  //                 documentSnapshot['name'],
+  //                 documentSnapshot['email'],
+  //                           );
+  //               }
+  //           );
+  //         } else return Container(
+  //           child: CircularProgressIndicator(),
+  //         );
+  //
+  //     }
+  //   );
+  // }
 
   /// 1.create a chatroom, send user to the chatroom, other userdetails
   sendMessage(String userName){
@@ -136,60 +164,61 @@ class _SearchState extends State<Search> {
       appBar: AppBar(
         title: Text('Firebase Authentication'),
       ),
-      body: isLoading ? Container(
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ) :  Container(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              color: Color(0x54FFFFFF),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: searchEditingController,
-
-                      decoration: InputDecoration(
-                          hintText: "search name ...",
-                          hintStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                          border: InputBorder.none
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      initiateSearch();
-                    },
-                    child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                colors: [
-                                  const Color(0x36FFFFFF),
-                                  const Color(0x0FFFFFFF)
-                                ],
-                                begin: FractionalOffset.topLeft,
-                                end: FractionalOffset.bottomRight
-                            ),
-                            borderRadius: BorderRadius.circular(40)
-                        ),
-                        padding: EdgeInsets.all(12),
-                        child: Icon(Icons.search),),
-                  )
-                ],
-              ),
-            ),
-            userList()
-          ],
-        ),
-      ),
+      body: userList(),
+      // body: isLoading ? Container(
+      //   child: Center(
+      //     child: CircularProgressIndicator(),
+      //   ),
+      // ) :  Container(
+      //   child: Column(
+      //     children: [
+      //       Container(
+      //         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      //         color: Color(0x54FFFFFF),
+      //         child: Row(
+      //           children: [
+      //             Expanded(
+      //               child: TextField(
+      //                 controller: searchEditingController,
+      //
+      //                 decoration: InputDecoration(
+      //                     hintText: "search name ...",
+      //                     hintStyle: TextStyle(
+      //                       color: Colors.black,
+      //                       fontSize: 16,
+      //                     ),
+      //                     border: InputBorder.none
+      //                 ),
+      //               ),
+      //             ),
+      //             GestureDetector(
+      //               onTap: (){
+      //                 // initiateSearch();
+      //               },
+      //               child: Container(
+      //                   height: 40,
+      //                   width: 40,
+      //                   decoration: BoxDecoration(
+      //                       gradient: LinearGradient(
+      //                           colors: [
+      //                             const Color(0x36FFFFFF),
+      //                             const Color(0x0FFFFFFF)
+      //                           ],
+      //                           begin: FractionalOffset.topLeft,
+      //                           end: FractionalOffset.bottomRight
+      //                       ),
+      //                       borderRadius: BorderRadius.circular(40)
+      //                   ),
+      //                   padding: EdgeInsets.all(12),
+      //                   child: Icon(Icons.search),),
+      //             )
+      //           ],
+      //         ),
+      //       ),
+      //       userList()
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
