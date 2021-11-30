@@ -17,10 +17,11 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  Query<Map<String, dynamic>> searchByName(String searchField) {
-    return FirebaseFirestore.instance
+   searchByName(String searchField) async {
+    return await FirebaseFirestore.instance
         .collection("users")
-        .where('name', isEqualTo: searchField);
+        .where('name', arrayContains: searchField)
+        .snapshots();
 
   }
   //
@@ -60,5 +61,10 @@ class DatabaseMethods {
         .where('users', arrayContains: itIsMyName)
         .snapshots();
   }
-
+Future SearchByName(String searchField) async {
+  return  FirebaseFirestore.instance
+      .collection("users")
+      .where('name', isGreaterThanOrEqualTo: searchField)
+      .get();
+}
 }

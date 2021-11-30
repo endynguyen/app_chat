@@ -114,8 +114,8 @@ class _LoginPageState extends State<LoginPage> {
                             MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () async {
+                                child: GestureDetector(
+                                  onTap: () async {
                                     _focusEmail.unfocus();
                                     _focusPassword.unfocus();
 
@@ -147,16 +147,29 @@ class _LoginPageState extends State<LoginPage> {
                                       }
                                     }
                                   },
-                                  child: Text(
-                                    'Sign In',
-                                    style: TextStyle(color: Colors.white),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            const Color(0xff007EF4),
+                                            const Color(0xff2A75BC)
+                                          ],
+                                        )),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Text(
+                                      "Sign In",
+                                      style: TextStyle(color: Colors.white, fontSize: 17),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
                               ),
                               SizedBox(width: 24.0),
                               Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
+                                child: GestureDetector(
+                                  onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) =>
@@ -164,9 +177,22 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     );
                                   },
-                                  child: Text(
-                                    'Register',
-                                    style: TextStyle(color: Colors.white),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 16),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            const Color(0xff007EF4),
+                                            const Color(0xff2A75BC)
+                                          ],
+                                        )),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Text(
+                                      "Sign Up",
+                                      style: TextStyle(color: Colors.white, fontSize: 17),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
                               ),

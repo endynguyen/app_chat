@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class Chat extends StatefulWidget {
   final String chatRoomId;
-
-  Chat({required this.chatRoomId});
+final String userName;
+  Chat({required this.chatRoomId,required this.userName});
 
   @override
   _ChatState createState() => _ChatState();
@@ -76,21 +76,23 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(' Chat Room'),
+        title: Text(' ${widget.userName}'),
         backgroundColor: Colors.black,
       ),
       body: Container(
-        child: Stack(
-          children: [
-            chatMessages(),
+        child: Column(
+          children:<Widget> [
+            Expanded(
+                child: chatMessages()),
+            Divider(),
             Container(alignment: Alignment.bottomCenter,
               width: MediaQuery
                   .of(context)
                   .size
                   .width,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                color: Colors.grey,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                color: Colors.black12,
                 child: Row(
                   children: [
                     Expanded(
@@ -99,7 +101,7 @@ class _ChatState extends State<Chat> {
                           decoration: InputDecoration(
                               hintText: "Message ...",
                               hintStyle: TextStyle(
-                                color: Colors.black,
+                                color: Colors.black   ,
                                 fontSize: 16,
                               ),
                               border: InputBorder.none
@@ -117,9 +119,7 @@ class _ChatState extends State<Chat> {
                               borderRadius: BorderRadius.circular(40)
                           ),
                           padding: EdgeInsets.all(12),
-                          child: Icon(Icons.send,
-                            color: Colors.black,
-                            size: 30,)),
+                          child: Icon(Icons.send,size: 30),),
                     ),
                   ],
                 ),

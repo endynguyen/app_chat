@@ -88,7 +88,7 @@ class _ChatRoomState extends State<ChatRoom> {
          child: chatRoomsList(),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.search),
+        child: Icon(Icons.people),
         backgroundColor: Colors.black,
         onPressed: () {
           Navigator.push(
@@ -111,12 +111,12 @@ class ChatRoomsTile extends StatelessWidget {
       onTap: (){
         Navigator.push(context, MaterialPageRoute(
             builder: (context) => Chat(
+              userName: name,
               chatRoomId: chatRoomId,
             )
         ));
       },
       child: Container(
-        color: Colors.white60,
         padding: EdgeInsets.symmetric(horizontal: 26, vertical: 26),
         child: Row(
           children: [
@@ -131,7 +131,6 @@ class ChatRoomsTile extends StatelessWidget {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 26,
-                      fontFamily: 'OverpassRegular',
                       fontWeight: FontWeight.w300)),
             ),
             SizedBox(
@@ -141,8 +140,7 @@ class ChatRoomsTile extends StatelessWidget {
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20,
-                    fontFamily: 'OverpassRegular',
+                    fontSize: 22,
                     fontWeight: FontWeight.w600))
           ],
         ),

@@ -112,8 +112,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           : Row(
                         children: [
                           Expanded(
-                            child: ElevatedButton(
-                              onPressed: () async {
+                            child: GestureDetector(
+                              onTap: () async {
                                 setState(() {
                                   _isProcessing = true;
                                 });
@@ -150,9 +150,22 @@ class _RegisterPageState extends State<RegisterPage> {
                                   }
                                 }
                               },
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(color: Colors.white),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 16),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        const Color(0xff007EF4),
+                                        const Color(0xff2A75BC)
+                                      ],
+                                    )),
+                                width: MediaQuery.of(context).size.width,
+                                child: Text(
+                                  "Sign Up",
+                                  style: TextStyle(color: Colors.white, fontSize: 17),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                           ),
